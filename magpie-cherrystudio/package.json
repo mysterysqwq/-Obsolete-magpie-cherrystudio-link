@@ -1,0 +1,27 @@
+{
+  "name": "magpie-cherrystudio",
+  "version": "0.1.0",
+  "description": "Connect Cherry Studio to Magpie through its official provider import link. 中文连接向导、网关检测与模型列表。",
+  "type": "module",
+  "main": "./index.mjs",
+  "files": ["index.mjs", "lib", "page", "ui", "serve.mjs", "install.ps1", "README.md", "LICENSE"],
+  "keywords": ["magpie-plugin", "magpie", "cherrystudio", "cherry-studio"],
+  "license": "MIT",
+  "engines": { "node": ">=20", "magpie": ">=0.1.3295" },
+  "scripts": { "start": "node serve.mjs", "test": "node --test test/*.test.mjs" },
+  "magpie": {
+    "name": "Cherry Studio 连接器",
+    "summary": {
+      "en": "Connect Cherry Studio to Magpie with gateway detection and the official provider import link.",
+      "zh": "检测本机网关，通过官方导入链接让 Cherry Studio 使用 Magpie 的模型。"
+    },
+    "page": {
+      "title": "Cherry Studio",
+      "titles": { "zh": "连接 Cherry Studio" },
+      "file": "page/index.html",
+      "icon": "page/icon.svg",
+      "service": { "port": 3489, "option": "port" }
+    },
+    "options": { "port": 3489 }
+  }
+}

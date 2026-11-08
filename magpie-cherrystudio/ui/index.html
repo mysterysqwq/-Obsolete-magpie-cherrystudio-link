@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="connector-token" content="__CONNECTOR_TOKEN__">
+  <title>连接 Cherry Studio · Magpie</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="mark" aria-hidden="true">M <span>↔</span> 🍒</div>
+      <p class="eyebrow">MAGPIE / CHERRY STUDIO</p>
+      <h1>在 Cherry Studio 里使用 Magpie</h1>
+      <p class="intro">连接本机网关，把 Magpie 中已启用的模型带到 Cherry Studio。</p>
+    </header>
+    <section class="card" aria-labelledby="connection-title">
+      <div class="section-head"><span class="step">1</span><h2 id="connection-title">检查连接</h2></div>
+      <label for="gateway">Magpie 网关地址</label>
+      <input id="gateway" type="url" placeholder="http://127.0.0.1:3425" spellcheck="false" autocomplete="off">
+      <p class="hint">自动读取本机 Magpie 端口。也可以填写以 /v1 结尾的地址。</p>
+      <div class="columns">
+        <div><label for="name">在 Cherry Studio 中的名称</label><input id="name" value="Magpie" maxlength="100" autocomplete="off"></div>
+        <div><label for="api-key">网关 API Key</label><input id="api-key" type="password" value="magpie-cherrystudio" autocomplete="off" spellcheck="false"></div>
+      </div>
+      <p class="hint">默认标识让 Magpie 把用量记在 cherrystudio 名下；若设置了网关访问限制，请填网关密钥。</p>
+      <button id="inspect" type="button">检测网关与模型</button>
+      <p id="status" role="status" aria-live="polite">正在载入配置…</p>
+      <div id="catalog" hidden>
+        <div class="catalog-head"><b id="model-count"></b><input id="search" type="search" placeholder="搜索模型名称或 ID" aria-label="搜索模型"></div>
+        <div id="model-list" class="model-list"></div>
+        <p class="hint">这里只读取模型列表，不发送聊天请求。</p>
+      </div>
+    </section>
+    <section class="card" aria-labelledby="import-title">
+      <div class="section-head"><span class="step">2</span><h2 id="import-title">导入 Cherry Studio</h2></div>
+      <p>生成配置后打开 Cherry Studio，在弹出的服务商导入窗口中确认。</p>
+      <button id="prepare" type="button" disabled>生成连接配置</button>
+      <div id="prepared" hidden>
+        <dl><dt>服务商类型</dt><dd>OpenAI（Chat Completions）</dd><dt>API 地址</dt><dd id="base-url"></dd></dl>
+        <div class="actions"><button id="open-cherry" type="button">打开 Cherry Studio 并导入</button><button id="copy-link" class="secondary" type="button">复制导入链接</button><button id="copy-config" class="secondary" type="button">复制配置 JSON</button></div>
+        <p class="hint">自定义网关密钥只用于本次操作，不写入插件配置。复制的链接和 JSON 包含该密钥。</p>
+      </div>
+      <p id="import-status" role="status" aria-live="polite"></p>
+    </section>
+    <section class="card last" aria-labelledby="models-title">
+      <div class="section-head"><span class="step">3</span><h2 id="models-title">获取模型，开始聊天</h2></div>
+      <ol>
+        <li>打开 Cherry Studio → 设置 → 模型服务，选择刚导入的 <b>Magpie</b> 并启用。</li>
+        <li>点击“管理模型”获取列表，添加需要的模型。不同版本的按钮可能叫“获取”或“添加模型”。</li>
+        <li>回到聊天窗口选择模型。Magpie 需要保持运行。</li>
+      </ol>
+      <p class="hint">手动添加模型时，请完整保留 ID，例如 provider/model，不要去掉斜杠前的服务商。之后新增模型，在 Cherry Studio 再获取一次列表。</p>
+      <details><summary>没有弹出导入窗口？</summary><p>先启动一次 Cherry Studio，让系统注册 cherrystudio:// 协议。如果仍无法打开，在模型服务中手动新增 OpenAI 服务商，使用上面显示的 API 地址和网关 API Key。</p><p>此连接器面向同一台电脑上的两个应用；只读 Magpie 端口和模型列表，通过 Cherry Studio 官方导入窗口添加服务商，不修改它的数据库。</p></details>
+    </section>
+    <section class="card" aria-labelledby="reverse-title">
+      <div class="section-head"><span class="step">↔</span><h2 id="reverse-title">让 Magpie 调用 Cherry Studio 的模型</h2></div>
+      <p>插件也提供 <b>Cherry Studio API Gateway</b> 模型服务商。需要 Cherry Studio 2.x 的 API 网关功能。</p>
+      <ol><li>在 Cherry Studio → 设置 → API 网关中点击“启动”，复制网关 API Key。</li><li>在 Magpie → 插件 → 此插件的 Cherry Studio API Gateway 服务商行中“登录”，填写网关地址和密钥。默认地址为 <code>http://127.0.0.1:23333/v1</code>。</li><li>获取模型列表后，在 Magpie 中选择 <code>cherrystudio/服务商:模型</code> 使用。Cherry Studio 需要保持运行。</li></ol>
+      <p class="hint">请选择 Cherry Studio 中直连上游的模型。不要选刚从 Magpie 导入的服务商，否则请求会在两个网关之间循环。</p>
+    </section>
+    <footer>连接器 0.1.0 · 使用 Cherry Studio 官方服务商导入协议和 API 网关</footer>
+  </main>
+</body>
+</html>
