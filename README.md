@@ -1,4 +1,4 @@
-注意：目前magpie官方已经支持cherry studio了，故本项目没用了。
+注意：目前magpie官方已经支持cherry studio了，故本项目弃用。
 
 # Magpie ↔ Cherry Studio 连接器
 
