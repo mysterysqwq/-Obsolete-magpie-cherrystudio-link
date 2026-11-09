@@ -1,3 +1,5 @@
+注意：目前magpie官方已经支持cherry studio了，故本项目没用了。
+
 # Magpie ↔ Cherry Studio 连接器
 
 一个无需构建、没有第三方运行时依赖的 Magpie 插件，提供两个连接方向：
